@@ -8,13 +8,17 @@ namespace Metatex {
 sealed class MetatexImporterEditor : ScriptedImporterEditor
 {
     SerializedProperty _dimensions;
+    SerializedProperty _generator;
     SerializedProperty _shader;
+    SerializedProperty _material;
 
     public override void OnEnable()
     {
         base.OnEnable();
         _dimensions = serializedObject.FindProperty("_dimensions");
+        _generator = serializedObject.FindProperty("_generator");
         _shader = serializedObject.FindProperty("_shader");
+        _material = serializedObject.FindProperty("_material");
     }
 
     public override void OnInspectorGUI()
@@ -22,7 +26,18 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
         serializedObject.Update();
 
         EditorGUILayout.PropertyField(_dimensions);
-        EditorGUILayout.PropertyField(_shader);
+        EditorGUILayout.PropertyField(_generator);
+
+        switch ((Generator)_generator.enumValueIndex)
+        {
+            case Generator.Shader:
+                EditorGUILayout.PropertyField(_shader);
+                break;
+
+            case Generator.Material:
+                EditorGUILayout.PropertyField(_material);
+                break;
+        }
 
         serializedObject.ApplyModifiedProperties();
         ApplyRevertGUI();

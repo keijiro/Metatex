@@ -10,7 +10,9 @@ public sealed class MetatexImporter : ScriptedImporter
     #region Editable attributes
 
     [SerializeField] Vector2Int _dimensions = new Vector2Int(512, 512);
+    [SerializeField] Generator _generator = Generator.Shader;
     [SerializeField] Shader _shader = null;
+    [SerializeField] Material _material = null;
 
     #endregion
 
@@ -18,9 +20,9 @@ public sealed class MetatexImporter : ScriptedImporter
 
     public override void OnImportAsset(AssetImportContext context)
     {
-        var tex = GenerateTexture();
-        if (tex != null) context.AddObjectToAsset("texture", tex);
-        context.SetMainObject(tex);
+        var texture = GenerateTexture();
+        context.AddObjectToAsset("texture", texture);
+        context.SetMainObject(texture);
     }
 
     #endregion
@@ -29,24 +31,45 @@ public sealed class MetatexImporter : ScriptedImporter
 
     Texture GenerateTexture()
     {
-        if (_shader == null) return null;
+        var texture = new Texture2D(_dimensions.x, _dimensions.y);
 
-        var rt = new RenderTexture(_dimensions.x, _dimensions.y, 0);
-        var tex = new Texture2D(_dimensions.x, _dimensions.y);
-        var mat = new Material(_shader);
+        switch (_generator)
+        {
+            case Generator.Shader:
+                BakeTexture(_shader, texture);
+                break;
+
+            case Generator.Material:
+                BakeTexture(_material, texture);
+                break;
+        }
+
+        return texture;
+    }
+
+    void BakeTexture(Shader shader, Texture2D texture)
+    {
+        if (shader == null) return;
+        var material = new Material(shader);
+        BakeTexture(material, texture);
+        DestroyImmediate(material);
+    }
+
+    void BakeTexture(Material material, Texture2D texture)
+    {
+        if (material == null) return;
+
+        var rt = new RenderTexture(texture.width, texture.height, 0);
 
         var prevRT = RenderTexture.active;
-        Graphics.Blit(null, rt, mat);
+        Graphics.Blit(null, rt, material);
 
-        tex.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
-        tex.Apply();
+        texture.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
+        texture.Apply();
 
         RenderTexture.active = prevRT;
 
         DestroyImmediate(rt);
-        DestroyImmediate(mat);
-
-        return tex;
     }
 
     #endregion

@@ -1,4 +1,4 @@
-Shader "Hidden/Metatex Test"
+Shader "Metatex/Test"
 {
     Properties
     {
