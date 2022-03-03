@@ -11,6 +11,7 @@ public sealed class MetatexImporter : ScriptedImporter
 
     [SerializeField] Vector2Int _dimensions = new Vector2Int(512, 512);
     [SerializeField] Generator _generator = Generator.Shader;
+    [SerializeField] Color _color = Color.gray;
     [SerializeField] Shader _shader = null;
     [SerializeField] Material _material = null;
 
@@ -27,6 +28,27 @@ public sealed class MetatexImporter : ScriptedImporter
 
     #endregion
 
+    #region Builtin shader
+
+    static Shader _builtinShader;
+
+    Material BuiltinMaterial => GetBuiltinMaterialSafe();
+
+    Material _builtinMaterial;
+
+    Material GetBuiltinMaterialSafe()
+    {
+        if (_builtinShader == null)
+            _builtinShader = (Shader)EditorGUIUtility.Load("MetatexBuiltin.shader");
+
+        if (_builtinMaterial == null)
+            _builtinMaterial = new Material(_builtinShader);
+
+        return _builtinMaterial;
+    }
+
+    #endregion
+
     #region Texture generator implementation
 
     Texture GenerateTexture()
@@ -35,6 +57,11 @@ public sealed class MetatexImporter : ScriptedImporter
 
         switch (_generator)
         {
+            case Generator.SolidColor:
+                BuiltinMaterial.color = _color;
+                BakeTexture(BuiltinMaterial, texture);
+                break;
+
             case Generator.Shader:
                 BakeTexture(_shader, texture);
                 break;

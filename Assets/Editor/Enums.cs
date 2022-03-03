@@ -1,5 +1,5 @@
 namespace Metatex {
 
-public enum Generator { Shader, Material }
+public enum Generator { SolidColor, LinearGradient, RadialGradient, Shader, Material }
 
 } // namespace Metatex

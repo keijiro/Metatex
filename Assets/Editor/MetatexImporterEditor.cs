@@ -9,6 +9,7 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
 {
     SerializedProperty _dimensions;
     SerializedProperty _generator;
+    SerializedProperty _color;
     SerializedProperty _shader;
     SerializedProperty _material;
 
@@ -17,6 +18,7 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
         base.OnEnable();
         _dimensions = serializedObject.FindProperty("_dimensions");
         _generator = serializedObject.FindProperty("_generator");
+        _color = serializedObject.FindProperty("_color");
         _shader = serializedObject.FindProperty("_shader");
         _material = serializedObject.FindProperty("_material");
     }
@@ -30,6 +32,10 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
 
         switch ((Generator)_generator.enumValueIndex)
         {
+            case Generator.SolidColor:
+                EditorGUILayout.PropertyField(_color);
+                break;
+
             case Generator.Shader:
                 EditorGUILayout.PropertyField(_shader);
                 break;
