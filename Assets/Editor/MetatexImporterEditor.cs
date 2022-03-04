@@ -60,6 +60,10 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
                 EditorGUILayout.PropertyField(_color2);
                 EditorGUILayout.PropertyField(_scale);
                 break;
+
+            case Generator.UVChecker:
+                EditorGUILayout.PropertyField(_scale);
+                break;
         }
 
         serializedObject.ApplyModifiedProperties();

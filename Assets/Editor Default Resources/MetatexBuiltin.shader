@@ -64,7 +64,39 @@ float4 FragmentCheckerboard
     return f.x ^ f.y ? _Color : _Color2;
 }
 
-// Pass 4: TV Test Card
+// Pass 4: UV Checker
+float4 FragmentUVChecker
+  (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
+{
+    // Frequency
+    float2 freq = _Scale * 8;
+
+    // Cell color
+    float p1 = frac(dot(floor(uv * freq) / freq, 1));
+    float3 rgb = HueToRGB(frac(lerp(1.6, 0.7, p1)));    // H
+    rgb = lerp(rgb, 1, 0.5);                            // S
+    rgb *= 0.35 + sin(p1 * UNITY_PI) * 0.4;             // V
+
+    // Grid lines
+    float2 p2 = frac(uv * freq);
+    p2 = min(p2, 1 - p2);
+    p2 = p2 / freq * _Dimensions;
+    rgb += any(p2 < 2) * 0.5;
+
+    // Crosshairs
+    float2 p3 = abs(frac(uv * freq) - 0.5);
+    bool mask = all(p3 < 0.2);
+    p3 = p3 / freq * _Dimensions;
+    rgb += mask * any(p3 < 2) * 0.5;
+
+    #ifndef UNITY_COLORSPACE_GAMMA
+    rgb = GammaToLinearSpace(rgb);
+    #endif
+
+    return float4(rgb, 1);
+}
+
+// Pass 5: TV Test Card
 float4 FragmentTestCard
   (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
 {
@@ -74,28 +106,28 @@ float4 FragmentTestCard
     float2 p2 = p1 / 2 - 0.5;                   // Position (grid)
 
     // Size of inner area
-    half aspect = _Dimensions.x / _Dimensions.y;
-    half2 area = half2(floor(6.5 * aspect) * 2 + 1, 13);
+    float aspect = _Dimensions.x / _Dimensions.y;
+    float2 area = float2(floor(6.5 * aspect) * 2 + 1, 13);
 
     // Crosshair and grid lines
-    half2 ch = abs(p0);
-    half2 grid = (1 - abs(frac(p2) - 0.5) * 2) / scale;
-    half c1 = min(min(ch.x, ch.y), min(grid.x, grid.y)) < 1 ? 1 : 0.5;
+    float2 ch = abs(p0);
+    float2 grid = (1 - abs(frac(p2) - 0.5) * 2) / scale;
+    float c1 = min(min(ch.x, ch.y), min(grid.x, grid.y)) < 1 ? 1 : 0.5;
 
     // Outer area checker
-    half2 checker = frac(floor(p2) / 2) * 2;
+    float2 checker = frac(floor(p2) / 2) * 2;
     if (any(abs(p1) > area)) c1 = abs(checker.x - checker.y);
 
-    half corner = sqrt(8) - length(abs(p1) - area + 4); // Corner circles
-    half circle = 12 - length(p1);                      // Big center circle
-    half mask = saturate(circle / scale);               // Center circls mask
+    float corner = sqrt(8) - length(abs(p1) - area + 4); // Corner circles
+    float circle = 12 - length(p1);                      // Big center circle
+    float mask = saturate(circle / scale);               // Center circls mask
 
     // Grayscale bars
-    half bar1 = saturate(p1.y < 5 ? floor(p1.x / 4 + 3) / 5 : p1.x / 16 + 0.5);
+    float bar1 = saturate(p1.y < 5 ? floor(p1.x / 4 + 3) / 5 : p1.x / 16 + 0.5);
     if (abs(5 - p1.y) < 4 * mask) c1 = bar1;
 
     // Basic color bars
-    half3 bar2 = HueToRGB((p1.y > -5 ? floor(p1.x / 4) / 6 : p1.x / 16) + 0.5);
+    float3 bar2 = HueToRGB((p1.y > -5 ? floor(p1.x / 4) / 6 : p1.x / 16) + 0.5);
     float3 rgb = abs(-5 - p1.y) < 4 * mask ? bar2 : saturate(c1);
 
     // Circle lines
@@ -105,7 +137,7 @@ float4 FragmentTestCard
     rgb = GammaToLinearSpace(rgb);
     #endif
 
-    return half4(rgb, 1);
+    return float4(rgb, 1);
 }
 
     ENDCG
@@ -139,6 +171,13 @@ float4 FragmentTestCard
             CGPROGRAM
             #pragma vertex vert_img
             #pragma fragment FragmentCheckerboard
+            ENDCG
+        }
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert_img
+            #pragma fragment FragmentUVChecker
             ENDCG
         }
         Pass

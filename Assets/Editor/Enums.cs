@@ -8,6 +8,7 @@ public enum Generator
     LinearGradient,
     RadialGradient,
     Checkerboard,
+    UVChecker,
     TestCard
 }
 

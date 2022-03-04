@@ -8,7 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 1431cff934e074ba08d350fd0fc5be0d, type: 3}
-  _dimensions: {x: 1280, y: 720}
+  _dimensions: {x: 512, y: 512}
   _generator: 6
   _color: {r: 0.4433962, g: 0.4203898, b: 0.4203898, a: 1}
   _color2: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 1}
@@ -41,6 +41,6 @@ ScriptedImporter:
     mode: 0
     numColorKeys: 3
     numAlphaKeys: 2
-  _scale: {x: 3, y: 3}
+  _scale: {x: 1, y: 1}
   _shader: {fileID: 4800000, guid: a70c95a98df40464db5b56ce5b9e4ba6, type: 3}
   _material: {fileID: 2100000, guid: e4928340dafb4482bb64acd13d0bb84d, type: 2}
