@@ -57,6 +57,7 @@ public sealed class MetatexImporter : ScriptedImporter
         BuiltinMaterial.SetColor("_Color2", _color2);
         BuiltinMaterial.SetLinearGradient("_Gradient", _gradient);
         BuiltinMaterial.SetVector("_Scale", _scale);
+        BuiltinMaterial.SetVector("_Dimensions", (Vector2)_dimensions);
     }
 
     #endregion

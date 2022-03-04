@@ -7,7 +7,8 @@ public enum Generator
     SolidColor,
     LinearGradient,
     RadialGradient,
-    Checkerboard
+    Checkerboard,
+    TestCard
 }
 
 } // namespace Metatex
