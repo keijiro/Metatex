@@ -10,7 +10,9 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
     SerializedProperty _dimensions;
     SerializedProperty _generator;
     SerializedProperty _color;
+    SerializedProperty _color2;
     SerializedProperty _gradient;
+    SerializedProperty _scale;
     SerializedProperty _shader;
     SerializedProperty _material;
 
@@ -20,7 +22,9 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
         _dimensions = serializedObject.FindProperty("_dimensions");
         _generator = serializedObject.FindProperty("_generator");
         _color = serializedObject.FindProperty("_color");
+        _color2 = serializedObject.FindProperty("_color2");
         _gradient = serializedObject.FindProperty("_gradient");
+        _scale = serializedObject.FindProperty("_scale");
         _shader = serializedObject.FindProperty("_shader");
         _material = serializedObject.FindProperty("_material");
     }
@@ -34,6 +38,14 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
 
         switch ((Generator)_generator.enumValueIndex)
         {
+            case Generator.Shader:
+                EditorGUILayout.PropertyField(_shader);
+                break;
+
+            case Generator.Material:
+                EditorGUILayout.PropertyField(_material);
+                break;
+
             case Generator.SolidColor:
                 EditorGUILayout.PropertyField(_color);
                 break;
@@ -43,12 +55,10 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
                 EditorGUILayout.PropertyField(_gradient);
                 break;
 
-            case Generator.Shader:
-                EditorGUILayout.PropertyField(_shader);
-                break;
-
-            case Generator.Material:
-                EditorGUILayout.PropertyField(_material);
+            case Generator.Checkerboard:
+                EditorGUILayout.PropertyField(_color);
+                EditorGUILayout.PropertyField(_color2);
+                EditorGUILayout.PropertyField(_scale);
                 break;
         }
 

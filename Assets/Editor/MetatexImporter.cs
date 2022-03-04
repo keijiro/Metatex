@@ -13,7 +13,9 @@ public sealed class MetatexImporter : ScriptedImporter
     [SerializeField] Vector2Int _dimensions = new Vector2Int(512, 512);
     [SerializeField] Generator _generator = Generator.Shader;
     [SerializeField] Color _color = Color.gray;
+    [SerializeField] Color _color2 = Color.white;
     [SerializeField] Gradient _gradient = null;
+    [SerializeField] Vector2 _scale = new Vector2(1, 1);
     [SerializeField] Shader _shader = null;
     [SerializeField] Material _material = null;
 
@@ -49,37 +51,37 @@ public sealed class MetatexImporter : ScriptedImporter
         return _builtinMaterial;
     }
 
+    void UpdateBuiltinMaterial()
+    {
+        BuiltinMaterial.color = _color;
+        BuiltinMaterial.SetColor("_Color2", _color2);
+        BuiltinMaterial.SetLinearGradient("_Gradient", _gradient);
+        BuiltinMaterial.SetVector("_Scale", _scale);
+    }
+
     #endregion
 
     #region Texture generator implementation
 
     Texture GenerateTexture()
     {
+        UpdateBuiltinMaterial();
+
         var texture = new Texture2D(_dimensions.x, _dimensions.y);
 
         switch (_generator)
         {
-            case Generator.SolidColor:
-                BuiltinMaterial.color = _color;
-                BakeTexture(BuiltinMaterial, texture, 0);
-                break;
-
-            case Generator.LinearGradient:
-                BuiltinMaterial.SetLinearGradient("_Gradient", _gradient);
-                BakeTexture(BuiltinMaterial, texture, 1);
-                break;
-
-            case Generator.RadialGradient:
-                BuiltinMaterial.SetLinearGradient("_Gradient", _gradient);
-                BakeTexture(BuiltinMaterial, texture, 2);
-                break;
-
             case Generator.Shader:
                 BakeTexture(_shader, texture);
                 break;
 
             case Generator.Material:
                 BakeTexture(_material, texture);
+                break;
+
+            default:
+                var pass = (int)_generator - (int)Generator.SolidColor;
+                BakeTexture(BuiltinMaterial, texture, pass);
                 break;
         }
 

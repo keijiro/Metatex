@@ -2,7 +2,8 @@ Shader "Hidden/Metatex/Builtin"
 {
     Properties
     {
-        _Color("Color", Color) = (0, 0, 0, 0)
+        _Color("", Color) = (0, 0, 0, 0)
+        _Color2("", Color) = (0, 0, 0, 0)
     }
 
     CGINCLUDE
@@ -10,8 +11,9 @@ Shader "Hidden/Metatex/Builtin"
 #include "UnityCG.cginc"
 #include "Packages/jp.keijiro.klak.lineargradient/Shader/LinearGradient.hlsl"
 
-float4 _Color;
+float4 _Color, _Color2;
 LinearGradient _Gradient;
+float2 _Scale;
 
 float4 FragmentSolidColor
   (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
@@ -40,6 +42,13 @@ float4 FragmentRadialGradient
     return s;
 }
 
+float4 FragmentCheckerboard
+  (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
+{
+    bool2 f = frac(uv * _Scale) > 0.5;
+    return f.x ^ f.y ? _Color : _Color2;
+}
+
     ENDCG
 
     SubShader
@@ -64,6 +73,13 @@ float4 FragmentRadialGradient
             CGPROGRAM
             #pragma vertex vert_img
             #pragma fragment FragmentRadialGradient
+            ENDCG
+        }
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert_img
+            #pragma fragment FragmentCheckerboard
             ENDCG
         }
     }
