@@ -10,6 +10,7 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
     SerializedProperty _dimensions;
     SerializedProperty _generator;
     SerializedProperty _color;
+    SerializedProperty _gradient;
     SerializedProperty _shader;
     SerializedProperty _material;
 
@@ -19,6 +20,7 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
         _dimensions = serializedObject.FindProperty("_dimensions");
         _generator = serializedObject.FindProperty("_generator");
         _color = serializedObject.FindProperty("_color");
+        _gradient = serializedObject.FindProperty("_gradient");
         _shader = serializedObject.FindProperty("_shader");
         _material = serializedObject.FindProperty("_material");
     }
@@ -34,6 +36,11 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
         {
             case Generator.SolidColor:
                 EditorGUILayout.PropertyField(_color);
+                break;
+
+            case Generator.LinearGradient:
+            case Generator.RadialGradient:
+                EditorGUILayout.PropertyField(_gradient);
                 break;
 
             case Generator.Shader:

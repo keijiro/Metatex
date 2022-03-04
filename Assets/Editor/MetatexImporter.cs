@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.AssetImporters;
+using Klak.Chromatics;
 
 namespace Metatex {
 
@@ -12,6 +13,7 @@ public sealed class MetatexImporter : ScriptedImporter
     [SerializeField] Vector2Int _dimensions = new Vector2Int(512, 512);
     [SerializeField] Generator _generator = Generator.Shader;
     [SerializeField] Color _color = Color.gray;
+    [SerializeField] Gradient _gradient = null;
     [SerializeField] Shader _shader = null;
     [SerializeField] Material _material = null;
 
@@ -59,7 +61,17 @@ public sealed class MetatexImporter : ScriptedImporter
         {
             case Generator.SolidColor:
                 BuiltinMaterial.color = _color;
-                BakeTexture(BuiltinMaterial, texture);
+                BakeTexture(BuiltinMaterial, texture, 0);
+                break;
+
+            case Generator.LinearGradient:
+                BuiltinMaterial.SetLinearGradient("_Gradient", _gradient);
+                BakeTexture(BuiltinMaterial, texture, 1);
+                break;
+
+            case Generator.RadialGradient:
+                BuiltinMaterial.SetLinearGradient("_Gradient", _gradient);
+                BakeTexture(BuiltinMaterial, texture, 2);
                 break;
 
             case Generator.Shader:
@@ -82,14 +94,14 @@ public sealed class MetatexImporter : ScriptedImporter
         DestroyImmediate(material);
     }
 
-    void BakeTexture(Material material, Texture2D texture)
+    void BakeTexture(Material material, Texture2D texture, int pass = 0)
     {
         if (material == null) return;
 
         var rt = new RenderTexture(texture.width, texture.height, 0);
 
         var prevRT = RenderTexture.active;
-        Graphics.Blit(null, rt, material);
+        Graphics.Blit(null, rt, material, pass);
 
         texture.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
         texture.Apply();
