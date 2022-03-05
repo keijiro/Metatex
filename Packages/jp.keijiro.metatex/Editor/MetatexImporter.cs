@@ -36,6 +36,9 @@ public sealed class MetatexImporter : ScriptedImporter
 
     static Shader _builtinShader;
 
+    static readonly string BuiltinShaderPath =
+        "Packages/jp.keijiro.metatex/Editor/MetatexBuiltin.shader";
+
     Material BuiltinMaterial => GetBuiltinMaterialSafe();
 
     Material _builtinMaterial;
@@ -43,7 +46,7 @@ public sealed class MetatexImporter : ScriptedImporter
     Material GetBuiltinMaterialSafe()
     {
         if (_builtinShader == null)
-            _builtinShader = (Shader)EditorGUIUtility.Load("MetatexBuiltin.shader");
+            _builtinShader = (Shader)EditorGUIUtility.Load(BuiltinShaderPath);
 
         if (_builtinMaterial == null)
             _builtinMaterial = new Material(_builtinShader);

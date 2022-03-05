@@ -2,10 +2,18 @@
   "dependencies": {
     "jp.keijiro.klak.lineargradient": {
       "version": "1.0.2",
-      "depth": 0,
+      "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://registry.npmjs.com"
+    },
+    "jp.keijiro.metatex": {
+      "version": "file:jp.keijiro.metatex",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "jp.keijiro.klak.lineargradient": "1.0.2"
+      }
     }
   }
 }

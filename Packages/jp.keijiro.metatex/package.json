@@ -1,0 +1,13 @@
+{
+  "author": "Keijiro Takahashi",
+  "dependencies": { "jp.keijiro.klak.lineargradient": "1.0.2" },
+  "description": "Metadata-only texture data importer",
+  "displayName": "Metatex",
+  "keywords": [ "unity" ],
+  "license": "Unlicense",
+  "name": "jp.keijiro.metatex",
+  "repository": "github:keijiro/Metatex",
+  "unity": "2021.2",
+  "unityRelease": "0f1",
+  "version": "0.0.1"
+}
