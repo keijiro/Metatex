@@ -7,6 +7,8 @@ public enum Generator
     SolidColor,
     LinearGradient,
     RadialGradient,
+    Spectrum,
+    Hsluv,
     Checkerboard,
     UVChecker,
     TestCard

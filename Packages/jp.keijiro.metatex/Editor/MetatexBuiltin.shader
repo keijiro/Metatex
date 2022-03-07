@@ -10,10 +10,12 @@ Shader "Hidden/Metatex/Builtin"
 
 #include "UnityCG.cginc"
 #include "Packages/jp.keijiro.klak.lineargradient/Shader/LinearGradient.hlsl"
+#include "Packages/jp.keijiro.metatex/Editor/Hsluv.hlslinc"
 
 float4 _Color, _Color2;
 LinearGradient _Gradient;
 float2 _Scale, _Dimensions;
+float _FloatParam;
 
 // Hue to RGB convertion
 half3 HueToRGB(half h)
@@ -56,7 +58,22 @@ float4 FragmentRadialGradient
     return s;
 }
 
-// Pass 3: Checkerboard
+// Pass 3: Spectrum
+float4 FragmentSpectrum
+  (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
+{
+    return float4(HueToRGB(uv.x), 1);
+}
+
+// Pass 4: Hsluv
+float4 FragmentHsluv
+  (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
+{
+    float3 rgb = HsluvToRgb(float3(uv.x * UNITY_PI * 2, 100, 50));
+    return float4(rgb, 1);
+}
+
+// Pass 5: Checkerboard
 float4 FragmentCheckerboard
   (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
 {
@@ -64,7 +81,7 @@ float4 FragmentCheckerboard
     return f.x ^ f.y ? _Color : _Color2;
 }
 
-// Pass 4: UV Checker
+// Pass 6: UV Checker
 float4 FragmentUVChecker
   (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
 {
@@ -96,7 +113,7 @@ float4 FragmentUVChecker
     return float4(rgb, 1);
 }
 
-// Pass 5: TV Test Card
+// Pass 7: TV Test Card
 float4 FragmentTestCard
   (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
 {
@@ -164,6 +181,20 @@ float4 FragmentTestCard
             CGPROGRAM
             #pragma vertex vert_img
             #pragma fragment FragmentRadialGradient
+            ENDCG
+        }
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert_img
+            #pragma fragment FragmentSpectrum
+            ENDCG
+        }
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert_img
+            #pragma fragment FragmentHsluv
             ENDCG
         }
         Pass

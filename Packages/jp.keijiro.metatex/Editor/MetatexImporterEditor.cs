@@ -29,6 +29,11 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
         _material = serializedObject.FindProperty("_material");
     }
 
+    static class Labels
+    {
+        public static GUIContent Lightness = new GUIContent("Lightness");
+    }
+
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
