@@ -1,3 +1,6 @@
+#ifndef _METATEX_HSLUV_HLSL_
+#define _METATEX_HSLUV_HLSL_
+
 static const float3x3 Hsluv_M = float3x3
   ( 3.240969941904521, -1.537383177570093,   -0.498610760293,
     -0.96924363628087,   1.87596750150772, 0.041555057407175,
@@ -71,3 +74,5 @@ float3 HsluvToRgb(float3 hsl)
     float3 xyz = Hsluv_LuvToXyz(luv);
     return Hsluv_XyzToRgb(xyz);
 }
+
+#endif // _METATEX_HSLUV_HLSL_

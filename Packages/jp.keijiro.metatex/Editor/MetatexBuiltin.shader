@@ -10,7 +10,7 @@ Shader "Hidden/Metatex/Builtin"
 
 #include "UnityCG.cginc"
 #include "Packages/jp.keijiro.klak.lineargradient/Shader/LinearGradient.hlsl"
-#include "Packages/jp.keijiro.metatex/Editor/Hsluv.hlslinc"
+#include "Packages/jp.keijiro.metatex/Editor/Hsluv.hlsl"
 
 float4 _Color, _Color2;
 LinearGradient _Gradient;
