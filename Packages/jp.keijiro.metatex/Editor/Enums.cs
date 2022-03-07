@@ -7,11 +7,21 @@ public enum Generator
     SolidColor,
     LinearGradient,
     RadialGradient,
-    Spectrum,
-    Hsluv,
+    Colormap,
     Checkerboard,
     UVChecker,
     TestCard
+}
+
+public enum Colormap
+{
+    Hsv,
+    Hsluv,
+    Turbo,
+    Viridis,
+    Plasma,
+    Magma,
+    Inferno
 }
 
 } // namespace Metatex

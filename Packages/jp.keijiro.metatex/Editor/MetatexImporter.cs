@@ -12,6 +12,7 @@ public sealed class MetatexImporter : ScriptedImporter
 
     [SerializeField] Vector2Int _dimensions = new Vector2Int(512, 512);
     [SerializeField] Generator _generator = Generator.Shader;
+    [SerializeField] Colormap _colormap = Colormap.Hsv;
     [SerializeField] Color _color = Color.gray;
     [SerializeField] Color _color2 = Color.white;
     [SerializeField] Gradient _gradient = null;
@@ -63,6 +64,17 @@ public sealed class MetatexImporter : ScriptedImporter
         BuiltinMaterial.SetVector("_Dimensions", (Vector2)_dimensions);
     }
 
+    int GetGeneratorPass()
+    {
+        if (_generator < Generator.Colormap)
+            return (int)_generator - (int)Generator.SolidColor;
+
+        if (_generator == Generator.Colormap)
+            return (int)_colormap + 3; // 3: Colormap (HSV)
+
+        return (int)_generator - (int)Generator.Checkerboard + 10;
+    }
+
     #endregion
 
     #region Texture generator implementation
@@ -84,8 +96,7 @@ public sealed class MetatexImporter : ScriptedImporter
                 break;
 
             default:
-                var pass = (int)_generator - (int)Generator.SolidColor;
-                BakeTexture(BuiltinMaterial, texture, pass);
+                BakeTexture(BuiltinMaterial, texture, GetGeneratorPass());
                 break;
         }
 

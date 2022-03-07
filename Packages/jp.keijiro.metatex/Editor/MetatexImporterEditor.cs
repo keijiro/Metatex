@@ -9,6 +9,7 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
 {
     SerializedProperty _dimensions;
     SerializedProperty _generator;
+    SerializedProperty _colormap;
     SerializedProperty _color;
     SerializedProperty _color2;
     SerializedProperty _gradient;
@@ -21,17 +22,13 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
         base.OnEnable();
         _dimensions = serializedObject.FindProperty("_dimensions");
         _generator = serializedObject.FindProperty("_generator");
+        _colormap = serializedObject.FindProperty("_colormap");
         _color = serializedObject.FindProperty("_color");
         _color2 = serializedObject.FindProperty("_color2");
         _gradient = serializedObject.FindProperty("_gradient");
         _scale = serializedObject.FindProperty("_scale");
         _shader = serializedObject.FindProperty("_shader");
         _material = serializedObject.FindProperty("_material");
-    }
-
-    static class Labels
-    {
-        public static GUIContent Lightness = new GUIContent("Lightness");
     }
 
     public override void OnInspectorGUI()
@@ -58,6 +55,10 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
             case Generator.LinearGradient:
             case Generator.RadialGradient:
                 EditorGUILayout.PropertyField(_gradient);
+                break;
+
+            case Generator.Colormap:
+                EditorGUILayout.PropertyField(_colormap);
                 break;
 
             case Generator.Checkerboard:

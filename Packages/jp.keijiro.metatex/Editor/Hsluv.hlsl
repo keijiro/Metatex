@@ -39,7 +39,11 @@ float Hsluv_MaxChromaForLH(float2 lh)
 
 float3 Hsluv_XyzToRgb(float3 xyz)
 {
-    return LinearToGammaSpace(mul(Hsluv_M, xyz));
+    float3 rgb = mul(Hsluv_M, xyz);
+    #ifdef UNITY_COLORSPACE_GAMMA
+    rgb = LinearToGammaSpace(rgb);
+    #endif
+    return rgb;
 }
 
 float Hsluv_LToY(float L) 

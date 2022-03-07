@@ -8,9 +8,12 @@ Shader "Hidden/Metatex/Builtin"
 
     CGINCLUDE
 
+#pragma exclude_renderers gles
+
 #include "UnityCG.cginc"
 #include "Packages/jp.keijiro.klak.lineargradient/Shader/LinearGradient.hlsl"
-#include "Packages/jp.keijiro.metatex/Editor/Hsluv.hlsl"
+#include "Hsluv.hlsl"
+#include "Colormap.hlsl"
 
 float4 _Color, _Color2;
 LinearGradient _Gradient;
@@ -58,14 +61,18 @@ float4 FragmentRadialGradient
     return s;
 }
 
-// Pass 3: Spectrum
+// Pass 3: Colormap (HSV)
 float4 FragmentSpectrum
   (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
 {
-    return float4(HueToRGB(uv.x), 1);
+    float3 rgb = HueToRGB(uv.x);
+    #ifndef UNITY_COLORSPACE_GAMMA
+    rgb = GammaToLinearSpace(rgb);
+    #endif
+    return float4(rgb, 1);
 }
 
-// Pass 4: Hsluv
+// Pass 4: Colormap (Hsluv)
 float4 FragmentHsluv
   (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
 {
@@ -73,7 +80,47 @@ float4 FragmentHsluv
     return float4(rgb, 1);
 }
 
-// Pass 5: Checkerboard
+// Pass 5: Colormap (Turbo)
+float4 FragmentColormapTurbo
+  (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
+{
+    float3 rgb = Colormap_Calculate(Colormap_Turbo1, Colormap_Turbo2, uv.x);
+    return float4(rgb, 1);
+}
+
+// Pass 6: Colormap (Viridis)
+float4 FragmentColormapViridis
+  (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
+{
+    float3 rgb = Colormap_Calculate(Colormap_Viridis1, Colormap_Viridis2, uv.x);
+    return float4(rgb, 1);
+}
+
+// Pass 7: Colormap (Plasma)
+float4 FragmentColormapPlasma
+  (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
+{
+    float3 rgb = Colormap_Calculate(Colormap_Plasma1, Colormap_Plasma2, uv.x);
+    return float4(rgb, 1);
+}
+
+// Pass 8: Colormap (Magma)
+float4 FragmentColormapMagma
+  (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
+{
+    float3 rgb = Colormap_Calculate(Colormap_Magma1, Colormap_Magma2, uv.x);
+    return float4(rgb, 1);
+}
+
+// Pass 9: Colormap (Inferno)
+float4 FragmentColormapInferno
+  (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
+{
+    float3 rgb = Colormap_Calculate(Colormap_Inferno1, Colormap_Inferno2, uv.x);
+    return float4(rgb, 1);
+}
+
+// Pass 10: Checkerboard
 float4 FragmentCheckerboard
   (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
 {
@@ -81,7 +128,7 @@ float4 FragmentCheckerboard
     return f.x ^ f.y ? _Color : _Color2;
 }
 
-// Pass 6: UV Checker
+// Pass 11: UV Checker
 float4 FragmentUVChecker
   (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
 {
@@ -113,7 +160,7 @@ float4 FragmentUVChecker
     return float4(rgb, 1);
 }
 
-// Pass 7: TV Test Card
+// Pass 12: TV Test Card
 float4 FragmentTestCard
   (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
 {
@@ -195,6 +242,41 @@ float4 FragmentTestCard
             CGPROGRAM
             #pragma vertex vert_img
             #pragma fragment FragmentHsluv
+            ENDCG
+        }
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert_img
+            #pragma fragment FragmentColormapTurbo
+            ENDCG
+        }
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert_img
+            #pragma fragment FragmentColormapViridis
+            ENDCG
+        }
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert_img
+            #pragma fragment FragmentColormapPlasma
+            ENDCG
+        }
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert_img
+            #pragma fragment FragmentColormapMagma
+            ENDCG
+        }
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert_img
+            #pragma fragment FragmentColormapInferno
             ENDCG
         }
         Pass
