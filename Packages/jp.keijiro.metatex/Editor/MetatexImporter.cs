@@ -19,6 +19,9 @@ public sealed class MetatexImporter : ScriptedImporter
     [SerializeField] Vector2 _scale = new Vector2(1, 1);
     [SerializeField] Shader _shader = null;
     [SerializeField] Material _material = null;
+    [SerializeField] TextureWrapMode _wrapMode = TextureWrapMode.Repeat;
+    [SerializeField] FilterMode _filterMode = FilterMode.Bilinear;
+    [SerializeField, Range(0, 16)] int _anisoLevel = 1;
 
     #endregion
 
@@ -83,7 +86,8 @@ public sealed class MetatexImporter : ScriptedImporter
     {
         UpdateBuiltinMaterial();
 
-        var texture = new Texture2D(_dimensions.x, _dimensions.y);
+        var texture = new Texture2D(_dimensions.x, _dimensions.y)
+          { filterMode = _filterMode, wrapMode = _wrapMode, anisoLevel = _anisoLevel };
 
         switch (_generator)
         {

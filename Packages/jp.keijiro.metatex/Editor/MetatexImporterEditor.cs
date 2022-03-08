@@ -16,6 +16,9 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
     SerializedProperty _scale;
     SerializedProperty _shader;
     SerializedProperty _material;
+    SerializedProperty _filterMode;
+    SerializedProperty _wrapMode;
+    SerializedProperty _anisoLevel;
 
     public override void OnEnable()
     {
@@ -29,6 +32,9 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
         _scale = serializedObject.FindProperty("_scale");
         _shader = serializedObject.FindProperty("_shader");
         _material = serializedObject.FindProperty("_material");
+        _filterMode = serializedObject.FindProperty("_filterMode");
+        _wrapMode = serializedObject.FindProperty("_wrapMode");
+        _anisoLevel = serializedObject.FindProperty("_anisoLevel");
     }
 
     public override void OnInspectorGUI()
@@ -71,6 +77,10 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
                 EditorGUILayout.PropertyField(_scale);
                 break;
         }
+
+        EditorGUILayout.PropertyField(_filterMode);
+        EditorGUILayout.PropertyField(_wrapMode);
+        EditorGUILayout.PropertyField(_anisoLevel);
 
         serializedObject.ApplyModifiedProperties();
         ApplyRevertGUI();
