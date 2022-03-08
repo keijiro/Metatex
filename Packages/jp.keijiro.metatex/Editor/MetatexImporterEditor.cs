@@ -4,83 +4,87 @@ using UnityEditor.AssetImporters;
 
 namespace Metatex {
 
-[CustomEditor(typeof(MetatexImporter))]
+[CustomEditor(typeof(MetatexImporter)), CanEditMultipleObjects]
 sealed class MetatexImporterEditor : ScriptedImporterEditor
 {
-    SerializedProperty _dimensions;
-    SerializedProperty _generator;
-    SerializedProperty _colormap;
-    SerializedProperty _color;
-    SerializedProperty _color2;
-    SerializedProperty _gradient;
-    SerializedProperty _scale;
-    SerializedProperty _shader;
-    SerializedProperty _material;
-    SerializedProperty _filterMode;
-    SerializedProperty _wrapMode;
-    SerializedProperty _anisoLevel;
+    AutoProperty _dimensions;
+    AutoProperty _generator;
+
+    AutoProperty _colormap;
+    AutoProperty _color;
+    AutoProperty _color2;
+    AutoProperty _gradient;
+    AutoProperty _scale;
+
+    AutoProperty _shader;
+    AutoProperty _material;
+
+    AutoProperty _filterMode;
+    AutoProperty _wrapMode;
+    AutoProperty _anisoLevel;
+
+    AutoProperty _compression;
+
+    static class Labels
+    {
+        public static Label FirstColor = "First Color";
+        public static Label SecondColor = "Second Color";
+        public static Label LineColor = "Line Color";
+    }
 
     public override void OnEnable()
     {
         base.OnEnable();
-        _dimensions = serializedObject.FindProperty("_dimensions");
-        _generator = serializedObject.FindProperty("_generator");
-        _colormap = serializedObject.FindProperty("_colormap");
-        _color = serializedObject.FindProperty("_color");
-        _color2 = serializedObject.FindProperty("_color2");
-        _gradient = serializedObject.FindProperty("_gradient");
-        _scale = serializedObject.FindProperty("_scale");
-        _shader = serializedObject.FindProperty("_shader");
-        _material = serializedObject.FindProperty("_material");
-        _filterMode = serializedObject.FindProperty("_filterMode");
-        _wrapMode = serializedObject.FindProperty("_wrapMode");
-        _anisoLevel = serializedObject.FindProperty("_anisoLevel");
+        AutoProperty.Scan(this);
     }
 
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
 
-        EditorGUILayout.PropertyField(_dimensions);
-        EditorGUILayout.PropertyField(_generator);
+        EditorGUILayout.PropertyField(_dimensions.Target);
+        EditorGUILayout.PropertyField(_generator.Target);
 
-        switch ((Generator)_generator.enumValueIndex)
+        switch ((Generator)_generator.Target.enumValueIndex)
         {
             case Generator.Shader:
-                EditorGUILayout.PropertyField(_shader);
+                EditorGUILayout.PropertyField(_shader.Target);
                 break;
 
             case Generator.Material:
-                EditorGUILayout.PropertyField(_material);
+                EditorGUILayout.PropertyField(_material.Target);
                 break;
 
             case Generator.SolidColor:
-                EditorGUILayout.PropertyField(_color);
+                EditorGUILayout.PropertyField(_color.Target);
                 break;
 
             case Generator.LinearGradient:
             case Generator.RadialGradient:
-                EditorGUILayout.PropertyField(_gradient);
+                EditorGUILayout.PropertyField(_gradient.Target);
                 break;
 
             case Generator.Colormap:
-                EditorGUILayout.PropertyField(_colormap);
+                EditorGUILayout.PropertyField(_colormap.Target);
                 break;
 
             case Generator.Checkerboard:
-                EditorGUILayout.PropertyField(_color);
-                EditorGUILayout.PropertyField(_color2);
-                EditorGUILayout.PropertyField(_scale);
+                EditorGUILayout.PropertyField(_color.Target, Labels.FirstColor);
+                EditorGUILayout.PropertyField(_color2.Target, Labels.SecondColor);
+                EditorGUILayout.PropertyField(_scale.Target);
                 break;
 
             case Generator.UVChecker:
-                EditorGUILayout.PropertyField(_scale);
+                EditorGUILayout.PropertyField(_color.Target, Labels.LineColor);
+                EditorGUILayout.PropertyField(_scale.Target);
                 break;
         }
 
-        EditorGUILayout.PropertyField(_filterMode);
-        EditorGUILayout.PropertyField(_wrapMode);
-        EditorGUILayout.PropertyField(_anisoLevel);
+        EditorGUILayout.PropertyField(_filterMode.Target);
+        EditorGUILayout.PropertyField(_wrapMode.Target);
+        EditorGUILayout.PropertyField(_anisoLevel.Target);
+
+        EditorGUILayout.PropertyField(_compression.Target);
 
         serializedObject.ApplyModifiedProperties();
         ApplyRevertGUI();

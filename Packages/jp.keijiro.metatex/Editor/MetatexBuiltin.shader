@@ -145,13 +145,13 @@ float4 FragmentUVChecker
     float2 p2 = frac(uv * freq);
     p2 = min(p2, 1 - p2);
     p2 = p2 / freq * _Dimensions;
-    rgb += any(p2 < 2) * 0.5;
+    rgb += any(p2 < 2) * _Color.rgb * _Color.a;
 
     // Crosshairs
     float2 p3 = abs(frac(uv * freq) - 0.5);
     bool mask = all(p3 < 0.2);
     p3 = p3 / freq * _Dimensions;
-    rgb += mask * any(p3 < 2) * 0.5;
+    rgb += mask * any(p3 < 2) * _Color.rgb * _Color.a;
 
     #ifndef UNITY_COLORSPACE_GAMMA
     rgb = GammaToLinearSpace(rgb);

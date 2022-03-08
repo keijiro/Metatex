@@ -11,17 +11,22 @@ public sealed class MetatexImporter : ScriptedImporter
     #region Editable attributes
 
     [SerializeField] Vector2Int _dimensions = new Vector2Int(512, 512);
-    [SerializeField] Generator _generator = Generator.Shader;
+    [SerializeField] Generator _generator = Generator.Checkerboard;
+
     [SerializeField] Colormap _colormap = Colormap.Hsv;
     [SerializeField] Color _color = Color.gray;
     [SerializeField] Color _color2 = Color.white;
-    [SerializeField] Gradient _gradient = null;
+    [SerializeField] Gradient _gradient = GradientUtil.Default();
     [SerializeField] Vector2 _scale = new Vector2(1, 1);
+
     [SerializeField] Shader _shader = null;
     [SerializeField] Material _material = null;
+
     [SerializeField] TextureWrapMode _wrapMode = TextureWrapMode.Repeat;
-    [SerializeField] FilterMode _filterMode = FilterMode.Bilinear;
-    [SerializeField, Range(0, 16)] int _anisoLevel = 1;
+    [SerializeField] FilterMode _filterMode = FilterMode.Trilinear;
+    [SerializeField, Range(0, 16)] int _anisoLevel = 4;
+
+    [SerializeField] bool _compression = true;
 
     #endregion
 
@@ -88,6 +93,7 @@ public sealed class MetatexImporter : ScriptedImporter
 
         var texture = new Texture2D(_dimensions.x, _dimensions.y)
           { filterMode = _filterMode, wrapMode = _wrapMode, anisoLevel = _anisoLevel };
+    texture.alphaIsTransparency = true;
 
         switch (_generator)
         {
@@ -125,7 +131,8 @@ public sealed class MetatexImporter : ScriptedImporter
         Graphics.Blit(null, rt, material, pass);
 
         texture.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
-        texture.Apply();
+        if (_compression) texture.Compress(true);
+        texture.Apply(true, true);
 
         RenderTexture.active = prevRT;
 
