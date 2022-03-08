@@ -18,6 +18,13 @@ It provides the following texture generators at the moment:
 
 [Colormaps]: https://github.com/keijiro/Pugrad
 
+Related Project
+---------------
+
+- [Metamesh] - Metadata-only mesh asset importer
+
+[Metamesh]: https://github.com/keijiro/Metamesh
+
 How To Install
 --------------
 
