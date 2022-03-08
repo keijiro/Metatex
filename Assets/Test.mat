@@ -78,4 +78,6 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _XFreq: {r: 2.29, g: 5.27, b: 7.5, a: 5.45}
+    - _YFreq: {r: 7.33, g: -9.21, b: 9.29, a: 4.89}
   m_BuildTextureStacks: []
