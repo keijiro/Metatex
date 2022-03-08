@@ -8,13 +8,15 @@ procedurally generates a texture from metadata at import-time.
 
 It provides the following texture generators at the moment:
 
-- Shader/Material baking
-- SolidColor
+- Shader/Material baker
+- Solid color
 - Linear/radial gradient
-- Colormap (Matplotlib colormaps, Turbo, HSVLuv and HSV)
+- [Colormaps] (Matplotlib colormaps, Turbo, HSLuv and HSV)
 - Checkerboard
 - UV checker
 - TV test card
+
+[Colormaps]: https://github.com/keijiro/Pugrad
 
 How To Install
 --------------
