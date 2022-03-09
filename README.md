@@ -8,10 +8,10 @@ procedurally generates a texture from metadata at import-time.
 
 It provides the following texture generators at the moment:
 
-- Shader/Material baking
-- SolidColor
+- Shader/Material baker
+- Solid color
 - Linear/radial gradient
-- Colormap (Matplotlib colormaps, Turbo, HSVLuv and HSV)
+- [Colormaps] (Matplotlib colormaps, Turbo, HSLuv and HSV)
 - Checkerboard
 - UV checker
 - TV test card
@@ -28,6 +28,15 @@ Note that you should follow the noto-emoji license terms when using imported
 assets in your project. See the repository documentation for details.
 
 [noto-emoji]: https://github.com/googlefonts/noto-emoji
+
+[Colormaps]: https://github.com/keijiro/Pugrad
+
+Related Project
+---------------
+
+- [Metamesh] - Metadata-only mesh asset importer
+
+[Metamesh]: https://github.com/keijiro/Metamesh
 
 How To Install
 --------------
