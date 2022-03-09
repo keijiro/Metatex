@@ -15,6 +15,19 @@ It provides the following texture generators at the moment:
 - Checkerboard
 - UV checker
 - TV test card
+- Emoji
+
+About Emoji Textures
+--------------------
+
+The Emoji texture generator downloads color emoji assets (image files) from
+the [noto-emoji] repository in an on-demand fashion. It requires an internet
+connection on importing.
+
+Note that you should follow the noto-emoji license terms when using imported
+assets in your project. See the repository documentation for details.
+
+[noto-emoji]: https://github.com/googlefonts/noto-emoji
 
 How To Install
 --------------
