@@ -51,7 +51,7 @@ To the `scopedRegistries` section:
 To the `dependencies` section:
 
 ```
-"jp.keijiro.metatex": "1.0.1"
+"jp.keijiro.metatex": "1.0.2"
 ```
 
 After the changes, the manifest file should look like:
@@ -66,6 +66,6 @@ After the changes, the manifest file should look like:
     }
   ],
   "dependencies": {
-    "jp.keijiro.metatex": "1.0.1",
+    "jp.keijiro.metatex": "1.0.2",
     ...
 ```
