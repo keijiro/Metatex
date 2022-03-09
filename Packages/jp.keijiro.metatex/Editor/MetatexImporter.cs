@@ -18,6 +18,7 @@ public sealed class MetatexImporter : ScriptedImporter
     [SerializeField] Color _color2 = Color.white;
     [SerializeField] Gradient _gradient = GradientUtil.Default();
     [SerializeField] Vector2 _scale = new Vector2(1, 1);
+    [SerializeField] string _codepoint = "1f600";
 
     [SerializeField] Shader _shader = null;
     [SerializeField] Material _material = null;
@@ -92,8 +93,12 @@ public sealed class MetatexImporter : ScriptedImporter
         UpdateBuiltinMaterial();
 
         var texture = new Texture2D(_dimensions.x, _dimensions.y)
-          { filterMode = _filterMode, wrapMode = _wrapMode, anisoLevel = _anisoLevel };
-    texture.alphaIsTransparency = true;
+        {
+            filterMode = _filterMode,
+            wrapMode = _wrapMode,
+            anisoLevel = _anisoLevel,
+            alphaIsTransparency = true
+        };
 
         switch (_generator)
         {
@@ -103,6 +108,10 @@ public sealed class MetatexImporter : ScriptedImporter
 
             case Generator.Material:
                 BakeTexture(_material, texture);
+                break;
+
+            case Generator.Emoji:
+                EmojiDownloader.Get(_codepoint, texture, _compression);
                 break;
 
             default:

@@ -10,7 +10,8 @@ public enum Generator
     Colormap,
     Checkerboard,
     UVChecker,
-    TestCard
+    TestCard,
+    Emoji
 }
 
 public enum Colormap

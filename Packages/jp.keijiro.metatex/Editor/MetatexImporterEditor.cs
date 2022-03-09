@@ -15,6 +15,7 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
     AutoProperty _color2;
     AutoProperty _gradient;
     AutoProperty _scale;
+    AutoProperty _codepoint;
 
     AutoProperty _shader;
     AutoProperty _material;
@@ -77,6 +78,10 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
             case Generator.UVChecker:
                 EditorGUILayout.PropertyField(_color.Target, Labels.LineColor);
                 EditorGUILayout.PropertyField(_scale.Target);
+                break;
+
+            case Generator.Emoji:
+                EditorGUILayout.PropertyField(_codepoint.Target);
                 break;
         }
 
