@@ -4,6 +4,23 @@ using System.Reflection;
 
 namespace Metatex {
 
+// Texture factory with local default settings
+static class Factory
+{
+    public static Texture2D NewTexture
+      (Vector2Int dimensions, bool linear)
+      => new Texture2D(dimensions.x, dimensions.y,
+                       TextureFormat.RGBA32, true, linear)
+         { alphaIsTransparency = true };
+
+    public static RenderTexture NewRenderTexture
+      (Vector2Int dimensions, bool linear)
+      => new RenderTexture(dimensions.x, dimensions.y, 0,
+                           RenderTextureFormat.Default,
+                           linear ? RenderTextureReadWrite.Linear :
+                                    RenderTextureReadWrite.Default);
+}
+
 // Default gradient
 static class GradientUtil
 {

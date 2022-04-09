@@ -25,6 +25,7 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
     AutoProperty _anisoLevel;
 
     AutoProperty _compression;
+    AutoProperty _linear;
 
     static class Labels
     {
@@ -90,6 +91,9 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
         EditorGUILayout.PropertyField(_anisoLevel.Target);
 
         EditorGUILayout.PropertyField(_compression.Target);
+
+        if (QualitySettings.activeColorSpace == ColorSpace.Linear)
+            EditorGUILayout.PropertyField(_linear.Target);
 
         serializedObject.ApplyModifiedProperties();
         ApplyRevertGUI();

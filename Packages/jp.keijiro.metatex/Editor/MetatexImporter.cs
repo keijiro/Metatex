@@ -28,6 +28,7 @@ public sealed class MetatexImporter : ScriptedImporter
     [SerializeField, Range(0, 16)] int _anisoLevel = 4;
 
     [SerializeField] bool _compression = true;
+    [SerializeField] bool _linear = false;
 
     #endregion
 
@@ -92,13 +93,10 @@ public sealed class MetatexImporter : ScriptedImporter
     {
         UpdateBuiltinMaterial();
 
-        var texture = new Texture2D(_dimensions.x, _dimensions.y)
-        {
-            filterMode = _filterMode,
-            wrapMode = _wrapMode,
-            anisoLevel = _anisoLevel,
-            alphaIsTransparency = true
-        };
+        var texture = Factory.NewTexture(_dimensions, _linear);
+        texture.filterMode = _filterMode;
+        texture.wrapMode = _wrapMode;
+        texture.anisoLevel = _anisoLevel;
 
         switch (_generator)
         {
@@ -134,8 +132,7 @@ public sealed class MetatexImporter : ScriptedImporter
     {
         if (material == null) return;
 
-        var rt = new RenderTexture(texture.width, texture.height, 0);
-
+        var rt = Factory.NewRenderTexture(_dimensions, _linear);
         var prevRT = RenderTexture.active;
         Graphics.Blit(null, rt, material, pass);
 
