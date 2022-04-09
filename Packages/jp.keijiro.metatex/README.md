@@ -8,10 +8,10 @@ procedurally generates a texture from metadata at import-time.
 
 It provides the following texture generators at the moment:
 
-- Shader/Material baking
-- SolidColor
+- Shader/Material baker
+- Solid color
 - Linear/radial gradient
-- Colormap (Matplotlib colormaps, Turbo, HSVLuv and HSV)
+- [Colormaps] (Matplotlib colormaps, Turbo, HSLuv and HSV)
 - Checkerboard
 - UV checker
 - TV test card
@@ -29,43 +29,31 @@ assets in your project. See the repository documentation for details.
 
 [noto-emoji]: https://github.com/googlefonts/noto-emoji
 
+[Colormaps]: https://github.com/keijiro/Pugrad
+
+Related Project
+---------------
+
+- [Metamesh] - Metadata-only mesh asset importer
+
+[Metamesh]: https://github.com/keijiro/Metamesh
+
 How To Install
 --------------
 
 This package uses the [scoped registry] feature to resolve package
-dependencies. Add the following lines to the manifest file
-(`Packages/manifest.json`).
+dependencies. Open the Package Manager page in the Project Settings window and
+add the following entry to the Scoped Registries list:
+
+- Name: `Keijiro`
+- URL: `https://registry.npmjs.com`
+- Scope: `jp.keijiro`
+
+![Scoped Registry](https://user-images.githubusercontent.com/343936/162576797-ae39ee00-cb40-4312-aacd-3247077e7fa1.png)
+
+Now you can install the package from My Registries page in the Package Manager
+window.
+
+![My Registries](https://user-images.githubusercontent.com/343936/162576825-4a9a443d-62f9-48d3-8a82-a3e80b486f04.png)
 
 [scoped registry]: https://docs.unity3d.com/Manual/upm-scoped.html
-
-To the `scopedRegistries` section:
-
-```
-{
-  "name": "Keijiro",
-  "url": "https://registry.npmjs.com",
-  "scopes": [ "jp.keijiro" ]
-}
-```
-
-To the `dependencies` section:
-
-```
-"jp.keijiro.metatex": "1.0.2"
-```
-
-After the changes, the manifest file should look like:
-
-```
-{
-  "scopedRegistries": [
-    {
-      "name": "Keijiro",
-      "url": "https://registry.npmjs.com",
-      "scopes": [ "jp.keijiro" ]
-    }
-  ],
-  "dependencies": {
-    "jp.keijiro.metatex": "1.0.2",
-    ...
-```
