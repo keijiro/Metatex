@@ -1,10 +1,5 @@
 Shader "Metatex Test"
 {
-    Properties
-    {
-        _XFreq("X Frequency", Vector) = (1, 1, 1, 1)
-        _YFreq("Y Frequency", Vector) = (1, 1, 1, 1)
-    }
     SubShader
     {
         Cull Off ZWrite Off ZTest Always
@@ -17,14 +12,12 @@ Shader "Metatex Test"
             #pragma vertex vert_img
             #pragma fragment Fragment
 
-            float4 _XFreq, _YFreq;
-
             float4 Fragment(float4 pos : SV_Position,
                             float2 uv : TEXCOORD0) : SV_Target
             {
-                float3 phi = _XFreq.xyz * uv.x + _YFreq.xyz * uv.y;
-                phi += _XFreq.w + _YFreq.w;
-                return float4(sin(phi) * 0.5 + 0.5, 1);
+                float z = cos(length(uv - 0.5) * 30) * 8;
+                float2 xy = -float2(ddx(z), ddy(z));
+                return float4((xy + 1) / 2, 0, 1);
             }
 
             ENDCG
