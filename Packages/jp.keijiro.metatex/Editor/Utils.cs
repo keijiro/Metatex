@@ -58,26 +58,28 @@ static class EmojiDownloader
         var filename = $"emoji_u{NormalizeCode(code)}.png";
         var tempFilePath = "Temp/" + filename;
 
-        using var client = new System.Net.WebClient();
-        client.DownloadFile($"{BaseURL}/{filename}", tempFilePath);
-        var bytes = System.IO.File.ReadAllBytes(tempFilePath);
+        using (var client = new System.Net.WebClient())
+        {
+            client.DownloadFile($"{BaseURL}/{filename}", tempFilePath);
+            var bytes = System.IO.File.ReadAllBytes(tempFilePath);
 
-        var temp = new Texture2D(1, 1);
-        ImageConversion.LoadImage(temp, bytes);
+            var temp = new Texture2D(1, 1);
+            ImageConversion.LoadImage(temp, bytes);
 
-        var rt = new RenderTexture(texture.width, texture.height, 0);
+            var rt = new RenderTexture(texture.width, texture.height, 0);
 
-        var prevRT = RenderTexture.active;
-        Graphics.Blit(temp, rt);
+            var prevRT = RenderTexture.active;
+            Graphics.Blit(temp, rt);
 
-        texture.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
-        if (compression) texture.Compress(true);
-        texture.Apply(true, true);
+            texture.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
+            if (compression) texture.Compress(true);
+            texture.Apply(true, true);
 
-        RenderTexture.active = prevRT;
+            RenderTexture.active = prevRT;
 
-        Object.DestroyImmediate(rt);
-        Object.DestroyImmediate(temp);
+            Object.DestroyImmediate(rt);
+            Object.DestroyImmediate(temp);
+        }
     }
 }
 
