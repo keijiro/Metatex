@@ -9,8 +9,16 @@ Shader "Metatex Test"
 
             #include "UnityCG.cginc"
 
-            #pragma vertex vert_img
+            #pragma vertex Vertex
             #pragma fragment Fragment
+
+            void Vertex
+              (float4 inPos : POSITION, float2 inUV : TEXCOORD0,
+               out float4 outPos : SV_Position, out float2 outUV : TEXCOORD0)
+            {
+                outPos = UnityObjectToClipPos(inPos);
+                outUV = inUV;
+            }
 
             float4 Fragment(float4 pos : SV_Position,
                             float2 uv : TEXCOORD0) : SV_Target

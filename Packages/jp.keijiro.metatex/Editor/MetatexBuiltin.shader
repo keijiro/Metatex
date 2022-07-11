@@ -31,6 +31,15 @@ half3 HueToRGB(half h)
     return rgb;
 }
 
+// Common vertex shader
+void Vertex
+  (float4 inPos : POSITION, float2 inUV : TEXCOORD0,
+   out float4 outPos : SV_Position, out float2 outUV : TEXCOORD0)
+{
+    outPos = UnityObjectToClipPos(inPos);
+    outUV = inUV;
+}
+
 // Pass 0: Solid Color
 float4 FragmentSolidColor
   (float4 pos : SV_Position, float2 uv : TEXCOORD0) : SV_Target
@@ -212,91 +221,91 @@ float4 FragmentTestCard
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert_img
+            #pragma vertex Vertex
             #pragma fragment FragmentSolidColor
             ENDCG
         }
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert_img
+            #pragma vertex Vertex
             #pragma fragment FragmentLinearGradient
             ENDCG
         }
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert_img
+            #pragma vertex Vertex
             #pragma fragment FragmentRadialGradient
             ENDCG
         }
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert_img
+            #pragma vertex Vertex
             #pragma fragment FragmentSpectrum
             ENDCG
         }
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert_img
+            #pragma vertex Vertex
             #pragma fragment FragmentHsluv
             ENDCG
         }
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert_img
+            #pragma vertex Vertex
             #pragma fragment FragmentColormapTurbo
             ENDCG
         }
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert_img
+            #pragma vertex Vertex
             #pragma fragment FragmentColormapViridis
             ENDCG
         }
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert_img
+            #pragma vertex Vertex
             #pragma fragment FragmentColormapPlasma
             ENDCG
         }
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert_img
+            #pragma vertex Vertex
             #pragma fragment FragmentColormapMagma
             ENDCG
         }
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert_img
+            #pragma vertex Vertex
             #pragma fragment FragmentColormapInferno
             ENDCG
         }
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert_img
+            #pragma vertex Vertex
             #pragma fragment FragmentCheckerboard
             ENDCG
         }
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert_img
+            #pragma vertex Vertex
             #pragma fragment FragmentUVChecker
             ENDCG
         }
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert_img
+            #pragma vertex Vertex
             #pragma fragment FragmentTestCard
             ENDCG
         }
