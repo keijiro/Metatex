@@ -1,2 +1,2 @@
-m_EditorVersion: 2021.2.19f1
-m_EditorVersionWithRevision: 2021.2.19f1 (602ecdbb2fb0)
+m_EditorVersion: 2022.3.22f1
+m_EditorVersionWithRevision: 2022.3.22f1 (887be4894c44)
