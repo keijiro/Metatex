@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.AssetImporters;
+using UnityEditor.Build;
 using System.Reflection;
 
 namespace Metatex {
@@ -116,6 +118,34 @@ struct AutoProperty
         foreach (var f in typeof(T).GetFields(flags))
             if (f.FieldType == typeof(AutoProperty))
                 f.SetValue(target, new AutoProperty(so.FindProperty(f.Name)));
+    }
+}
+
+// This class watches for platform changes and updates custom dependencies
+// to trigger reimport of Metatex assets
+sealed class BuildTargetProcessor : IActiveBuildTargetChanged
+{
+    static readonly Hash128 hash0 = Hash128.Compute(0);
+    static readonly Hash128 hash1 = Hash128.Compute(1);
+
+    public int callbackOrder => 0;
+
+    public void OnActiveBuildTargetChanged(BuildTarget previousTarget, BuildTarget newTarget)
+    {
+        // Platform has changed - update custom dependencies
+        var oldPlatform = $"Metatex_Platform_{previousTarget}";
+        var newPlatform = $"Metatex_Platform_{newTarget}";
+
+        // This will trigger reimport of all assets depending on these custom dependencies
+        AssetDatabase.RegisterCustomDependency(oldPlatform, hash0);
+        AssetDatabase.RegisterCustomDependency(newPlatform, hash1);
+    }
+
+    // Public static method to register platform dependency
+    public static void RegisterPlatformDependency(AssetImportContext context)
+    {
+        var platformString = EditorUserBuildSettings.activeBuildTarget.ToString();
+        context.DependsOnCustomDependency($"Metatex_Platform_{platformString}");
     }
 }
 

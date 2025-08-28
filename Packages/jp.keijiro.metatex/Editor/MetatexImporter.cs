@@ -40,6 +40,8 @@ public sealed class MetatexImporter : ScriptedImporter
 
     public override void OnImportAsset(AssetImportContext context)
     {
+        BuildTargetProcessor.RegisterPlatformDependency(context);
+
         var texture = GenerateTexture();
         context.AddObjectToAsset("texture", texture);
         context.SetMainObject(texture);
