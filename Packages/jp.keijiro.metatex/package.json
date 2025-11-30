@@ -1,6 +1,6 @@
 {
   "name": "jp.keijiro.metatex",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "displayName": "Metatex",
   "description": "Metadata-only texture data importer",
   "unity": "2022.3",
@@ -10,5 +10,5 @@
   "documentationUrl": "https://github.com/keijiro/Metatex",
   "licensesUrl": "https://github.com/keijiro/Metatex/blob/main/LICENSE",
   "license": "Unlicense",
-  "_upm": { "changelog": "" }
+  "_upm": { "changelog": "<b>Added</b><br>- Added signing for Unity 6.3" }
 }
