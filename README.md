@@ -34,8 +34,8 @@ project. See the repository documentation for details.
 - [Metamesh] - Surface mesh asset generator
 - [Metawire] - Wireframe mesh asset generator
 
-[Metamesh]: https://github.com/keijiro/Metamesh [Metawire]:
-https://github.com/keijiro/Metawire
+[Metamesh]: https://github.com/keijiro/Metamesh
+[Metawire]: https://github.com/keijiro/Metawire
 
 ## Installation
 
