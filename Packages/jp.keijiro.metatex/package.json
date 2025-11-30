@@ -1,13 +1,14 @@
 {
+  "name": "jp.keijiro.metatex",
+  "version": "1.0.5",
+  "displayName": "Metatex",
+  "description": "Metadata-only texture data importer",
+  "unity": "2022.3",
   "author": "Keijiro Takahashi",
   "dependencies": { "jp.keijiro.klak.lineargradient": "1.0.2" },
-  "description": "Metadata-only texture data importer",
-  "displayName": "Metatex",
-  "keywords": [ "unity" ],
+  "changelogUrl": "https://github.com/keijiro/Metatex/blob/main/CHANGELOG.md",
+  "documentationUrl": "https://github.com/keijiro/Metatex",
+  "licensesUrl": "https://github.com/keijiro/Metatex/blob/main/LICENSE",
   "license": "Unlicense",
-  "name": "jp.keijiro.metatex",
-  "repository": "github:keijiro/Metatex",
-  "unity": "2021.2",
-  "unityRelease": "0f1",
-  "version": "1.0.5"
+  "_upm": { "changelog": "" }
 }
