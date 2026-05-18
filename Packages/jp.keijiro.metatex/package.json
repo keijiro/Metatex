@@ -5,7 +5,7 @@
   "description": "Metadata-only texture data importer",
   "unity": "2022.3",
   "author": "Keijiro Takahashi",
-  "dependencies": { "jp.keijiro.klak.lineargradient": "1.0.2" },
+  "dependencies": { "jp.keijiro.klak.lineargradient": "1.0.3" },
   "changelogUrl": "https://github.com/keijiro/Metatex/blob/main/CHANGELOG.md",
   "documentationUrl": "https://github.com/keijiro/Metatex",
   "licensesUrl": "https://github.com/keijiro/Metatex/blob/main/LICENSE",
