@@ -1,6 +1,6 @@
 {
   "name": "jp.keijiro.metatex",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "displayName": "Metatex",
   "description": "Metadata-only texture data importer",
   "unity": "2022.3",
@@ -10,5 +10,5 @@
   "documentationUrl": "https://github.com/keijiro/Metatex",
   "licensesUrl": "https://github.com/keijiro/Metatex/blob/main/LICENSE",
   "license": "Unlicense",
-  "_upm": { "changelog": "<b>Added</b><br>- Added signing for Unity 6.3" }
+  "_upm": { "changelog": "<b>Changed</b><br>- Updated Klak Linear Gradient dependency.<br><br><b>Fixed</b><br>- Fixed compatibility issue with Unity 6.5." }
 }
