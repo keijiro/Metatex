@@ -105,7 +105,11 @@ sealed class MetatexImporterEditor : ScriptedImporterEditor
 
     [MenuItem("Assets/Create/Metatex")]
     public static void CreateNewAsset()
+#if UNITY_6000_5_OR_NEWER
+      => ProjectWindowUtil.CreateAssetWithTextContent("New Metatex.metatex", "");
+#else
       => ProjectWindowUtil.CreateAssetWithContent("New Metatex.metatex", "");
+#endif
 }
 
 } // namespace Metatex
